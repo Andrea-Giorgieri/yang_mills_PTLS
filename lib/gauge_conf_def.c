@@ -241,7 +241,7 @@ void init_defect_beta(Gauge_Conf *GC, GParam const * const param, int const n)
 	if (param->d_N_replica_pt > 1)
 		{
 		for(r=0; r<param->d_volume; r++)
-			for(i=0; i<d_N_defect_levels; i++)
+			for(i=0; i<param->d_N_defect_levels; i++)
 				{
 				// check if r is on the i-th level of the defect or not
 				si_to_cart(cartcoord, r, param);

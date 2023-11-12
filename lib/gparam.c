@@ -693,7 +693,7 @@ void readinput(char *in_file, GParam *param)
 							fprintf(stderr, "Problems in allocating parallel tempering parameters! (%s, %d)\n", __FILE__, __LINE__);
 							exit(EXIT_FAILURE);
 							}
-						for (i=0; i<d_N_defect_levels; i++)
+						for (i=0; i<param->d_N_defect_levels; i++)
 							{
 							err=posix_memalign( (void **) &(param->d_L_defect[i]), (size_t) INT_ALIGN, (size_t) STDIM * sizeof(int));
 							if(err!=0)
@@ -702,7 +702,7 @@ void readinput(char *in_file, GParam *param)
 								exit(EXIT_FAILURE);
 								}
 							}
-						for (i=0; i<STDIM*d_N_defect_levels; i++)
+						for (i=0; i<STDIM*param->d_N_defect_levels; i++)
 							{
 							err=fscanf(input, "%d", &temp_i);
 							if(err!=1)
@@ -945,21 +945,15 @@ void readinput(char *in_file, GParam *param)
 		}
 				
 		// various checks on parallel tempering parameters
-		if(param->d_L_defect[0]>param->d_size[0])
+		for(i=0; i<STDIM; i++)
 			{
-			fprintf(stderr, "Error: defect's t-length is greater than lattice's t-length (%s, %d)\n", __FILE__, __LINE__);
-			exit(EXIT_FAILURE);
+			if(param->d_L_defect[0][i]>param->d_size[i])
+				{
+				fprintf(stderr, "Error: defect's length is greater than lattice's length (%s, %d)\n", __FILE__, __LINE__);
+				exit(EXIT_FAILURE);
+				}
 			}
-		if(param->d_L_defect[1]>param->d_size[2])
-			{
-			fprintf(stderr, "Error: defect's y-length is greater than lattice's y-length (%s, %d)\n", __FILE__, __LINE__);
-			exit(EXIT_FAILURE);
-			}
-		if(param->d_L_defect[2]>param->d_size[3])
-			{
-			fprintf(stderr, "Error: defect's z-length is greater than lattice's z-length (%s, %d)\n", __FILE__, __LINE__);
-			exit(EXIT_FAILURE);
-			}
+			
 		if(param->d_N_replica_pt<1)
 			{
 			fprintf(stderr, "Error: number of replica of parallel tempering must be greater than 0 (%s, %d)\n", __FILE__, __LINE__);
@@ -1008,7 +1002,7 @@ void init_derived_constants(GParam *param)
 		param->d_volume_defect=1;
 		for(i=0; i<STDIM-1;i++)
 		{
-			param->d_volume_defect *= param->d_L_defect[i];
+			param->d_volume_defect *= param->d_L_defect[0][i];
 		}
 	
 		// number of grid points (multicanonic only)
