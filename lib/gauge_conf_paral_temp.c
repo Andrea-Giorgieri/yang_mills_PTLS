@@ -62,7 +62,7 @@ void swap(Gauge_Conf *GC, Geometry const * const geo, GParam const * const param
 	
 	// compute action differences
 	#ifdef OPENMP_MODE
-	#pragma omp parallel for num_threads(NTHREADS) reduction(+:metro_swap_prob[:num_swaps]) private(s,aux_i,j)
+	#pragma omp parallel for num_threads(NTHREADS) reduction(+:metro_swap_prob[:num_swaps]) private(s,aux_i,i,j)
 	#endif
 	for(s=0;s<((num_swaps_1)*(swap_rectangle->d_vol_rect));s++)
 		{
@@ -99,7 +99,7 @@ void swap(Gauge_Conf *GC, Geometry const * const geo, GParam const * const param
 	
 	// compute action differences
 	#ifdef OPENMP_MODE
-	#pragma omp parallel for num_threads(NTHREADS) reduction(+:metro_swap_prob[:num_swaps]) private(s,aux_i,j)
+	#pragma omp parallel for num_threads(NTHREADS) reduction(+:metro_swap_prob[:num_swaps]) private(s,aux_i,i,j)
 	#endif
 	for(s=0;s<((num_swaps_2)*(swap_rectangle->d_vol_rect));s++)
 		{

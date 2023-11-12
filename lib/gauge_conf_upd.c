@@ -70,7 +70,6 @@ void calcstaples_wilson(Gauge_Conf const * const GC,
 	
 		//twist (clockwise plaquette) and defect modification
 		factor=GC->Z[r][dirs_to_si(i,j)];		//Z_\mu\nu(x)
-		factor*=GC->B[r]/param->d_beta;
 	
 		times_equal_complex(&stap, factor); // Z_\mu\nu(x) * staple
 	
@@ -100,7 +99,6 @@ void calcstaples_wilson(Gauge_Conf const * const GC,
 		
 		//twist (anticlockwise plaquette) and defect modification
 		factor=GC->Z[k][dirs_to_si(j,i)];	//Z_\nu\mu(x-\nu) = conj(Z_\mu\nu(x-\nu))
-		factor*=GC->B[k]/param->d_beta;
 	
 		times_equal_complex(&stap, factor); // Z_\mu\nu(x-\nu) * staple
 
@@ -118,30 +116,30 @@ void calcstaples_tracedef(Gauge_Conf const * const GC,
 						GAUGE_GROUP * M)
 	{
 	if(i!=0)
-	{
-	zero(M);
-	#ifdef DEBUG
-	fprintf(stderr, "Using calcstaples_tracedef for a non-temporal link (%s, %d)\n", __FILE__, __LINE__);
-	exit(EXIT_FAILURE);
-	#endif
-	}
-	else
-	{
-	int j;
-	long int rnext;
-	GAUGE_GROUP aux;
-
-	one(&aux);
-
-	rnext=r;
-	for(j=1; j<param->d_size[0]; j++)
 		{
-		rnext=nnp(geo, rnext, 0);
-		times_equal(&aux, &(GC->lattice[rnext][0]));
+		zero(M);
+		#ifdef DEBUG
+		fprintf(stderr, "Using calcstaples_tracedef for a non-temporal link (%s, %d)\n", __FILE__, __LINE__);
+		exit(EXIT_FAILURE);
+		#endif
 		}
+	else
+		{
+		int j;
+		long int rnext;
+		GAUGE_GROUP aux;
 
-	equal(M, &aux);
-	}
+		one(&aux);
+
+		rnext=r;
+		for(j=1; j<param->d_size[0]; j++)
+			{
+			rnext=nnp(geo, rnext, 0);
+			times_equal(&aux, &(GC->lattice[rnext][0]));
+			}
+
+		equal(M, &aux);
+		}
 	}
 
 
@@ -825,7 +823,7 @@ int metropolis(Gauge_Conf *GC,
 
 	// compute old action
 	times(&tmp_matrix, &(GC->lattice[r][i]), &stap);
-	action_old=GR->B[r]*(1.0-retr(&tmp_matrix));
+	action_old=GC->B[r]*(1.0-retr(&tmp_matrix));
 
 	// compute the new link
 	one(&tmp_matrix);
@@ -844,7 +842,7 @@ int metropolis(Gauge_Conf *GC,
 
 	// new action
 	times(&tmp_matrix, &new_link, &stap);
-	action_new=GR->B[r]*(1.0-retr(&tmp_matrix));
+	action_new=GC->B[r]*(1.0-retr(&tmp_matrix));
 
 	if(casuale()< exp(action_old-action_new))
 	{

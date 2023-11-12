@@ -961,11 +961,6 @@ void readinput(char *in_file, GParam *param)
 			}
 		
 		// check on gradflow parameters
-		if(param->d_agf_meas_each > param->d_agf_length)
-			{
-			fprintf(stderr, "Error: agf_meas_each can't be smaller than agf_length (%s, %d)\n", __FILE__, __LINE__);
-			exit(EXIT_FAILURE);
-			}
 		if(param->d_agf_meas_each < param->d_agf_time_bin)
 			{
 			fprintf(stderr, "Error: agf_meas_each must be greater than agf_time_bin (%s, %d)\n", __FILE__, __LINE__);

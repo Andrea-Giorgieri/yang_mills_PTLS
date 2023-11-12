@@ -1,5 +1,5 @@
-#ifndef YM_LOCAL_PT_GF_C
-#define YM_LOCAL_PT_GF_C
+#ifndef YM_LOCAL_PT_AGF_C
+#define YM_LOCAL_PT_AGF_C
 
 #include"../include/macro.h"
 
@@ -68,10 +68,8 @@ void real_main(char *in_file)
 	init_swap_acc_arrays(&acc_counters, &param);
 	
 	
-
     // Monte Carlo begin
     time(&time1);
-
     for(count=0; count < param.d_sample; count++)
 	{
 		// perform a single step of parallel tempering wth hierarchical update and print state of replica swaps
@@ -83,7 +81,6 @@ void real_main(char *in_file)
 		{
 			perform_measures_localobs_with_adaptive_gradflow(&(GC[0]), &geo, &param, datafilep, chiprimefilep, topchar_tcorr_filep);
 		}
-
 		// save configurations for backup
 		if(param.d_saveconf_back_every!=0)
 		{
@@ -171,11 +168,11 @@ void print_template_input(void)
     }
 	else
 	{
-		fprintf(fp,"size 4 4 4 4  # Nt Nx Ny Nz\n");
+		fprintf(fp,"size 12 4 4 12  # Nt Nx Ny Nz\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# parallel tempering parameters\n");
 		fprintf(fp,"N_defect_levels 2 6 2 2 6 3 1 1 3   # size of the defect levels and extensions (order: x-size y-size z-size t-size)\n");
-		fprintf(fp,"N_replica_pt    2 4.0 2.0  # number of parallel tempering replica ____ defect beta\n");
+		fprintf(fp,"N_replica_pt    3 6.0 4.0 2.0  # number of parallel tempering replica ____ defect beta\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# twist parameters\n");
 		fprintf(fp,"k_twist 0 0 0 1 0 0 # twist parameter on the plane (0,1), (0,2), ..., (0,STDIM-1), (1, 2), ...");
@@ -185,8 +182,7 @@ void print_template_input(void)
 		fprintf(fp,"hierarc_upd 2    2 1    1 1\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# Simulations parameters\n");
-		fprintf(fp, "beta  5.705\n");
-		fprintf(fp, "theta 0\n");
+		fprintf(fp, "beta  6.0\n");
 		fprintf(fp,"\n");
 		fprintf(fp, "sample     10\n");
 		fprintf(fp, "thermal    0\n");
