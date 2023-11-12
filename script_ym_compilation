@@ -6,7 +6,7 @@ NLEVELS=1
 
 NTHREADS=48
 
-compile_targets='yang_mills_local_pt_agf yang_mills_gradflow_all_conf debug_agf_vs_gf'
+compile_targets='yang_mills_local_ptls_agf'
 
 # 1=yes, 0=no
 ENABLE_THETA=0
