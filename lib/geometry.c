@@ -707,7 +707,7 @@ long cart_to_lexeo_rect(int const * const cartcoord, Rectangle const * const mos
 	return (eo*(most_update->d_vol_rect)+ris)/2; // even sites first
   }
 
-void init_rect(Rectangle *most_update, int const L_R, GParam const * const param)
+void init_rect(Rectangle *most_update, int const defect_level, int const L_R, GParam const * const param)
 	{
 	// sizes of rectangle and ranges of rect coordinates
 	int aux_L[STDIM], size_min[STDIM], size_max[STDIM];
@@ -717,9 +717,9 @@ void init_rect(Rectangle *most_update, int const L_R, GParam const * const param
 	V = 1;
 	for(i=0; i<STDIM; i++) 
 		{
-		aux_L[i] = 2*L_R + param->d_L_defect[0][i];
+		aux_L[i] = 2*L_R + param->d_L_defect[defect_level][i];
 		size_min[i] = -L_R;
-		size_max[i] = param->d_L_defect[0][i] + L_R;
+		size_max[i] = param->d_L_defect[defect_level][i] + L_R;
 		if(aux_L[i] >= param->d_size[i])	//rectangle is the whole lattice along directions with size >= lattice size
 			{
 			aux_L[i] = param->d_size[i];
@@ -799,7 +799,7 @@ void init_rect_hierarc(Rectangle **most_update, Rectangle **clover_rect, GParam 
 			}
 		for(i=0; i<param->d_N_hierarc_levels; i++)
 			{
-			init_rect(&((*most_update)[i]), param->d_L_rect[i], param);
+			init_rect(&((*most_update)[i]), param->d_N_defect_levels-1, param->d_L_rect[i], param);
 			}
 	
 		#ifdef THETA_MODE

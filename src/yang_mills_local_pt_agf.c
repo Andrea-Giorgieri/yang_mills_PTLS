@@ -61,8 +61,8 @@ void real_main(char *in_file)
 	// initialize rectangles for hierarchical update
 	init_rect_hierarc(&most_update, &clover_rectangle, &param);
 		
-	// initialize rectangle for swap probability evaluation (L_R_swap = 0)
-	init_rect(&swap_rectangle, L_R_swap, &param);
+	// initialize rectangle for swap probability evaluation (defect_level = 0, L_R_swap = 0)
+	init_rect(&swap_rectangle, 0, L_R_swap, &param);
 		
 	// init acceptances array
 	init_swap_acc_arrays(&acc_counters, &param);
@@ -171,15 +171,15 @@ void print_template_input(void)
 		fprintf(fp,"size 12 4 4 12  # Nt Nx Ny Nz\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# parallel tempering parameters\n");
-		fprintf(fp,"N_defect_levels 2 6 2 2 6 3 1 1 3   # size of the defect levels and extensions (order: x-size y-size z-size t-size)\n");
-		fprintf(fp,"N_replica_pt    3 6.0 4.0 2.0  # number of parallel tempering replica ____ defect beta\n");
+		fprintf(fp,"N_defect_levels 2    6 2 2 6    3 1 1 3   # size of the defect levels and extensions (order: x-size y-size z-size t-size)\n");
+		fprintf(fp,"N_replica_pt    3    6.0 4.0 2.0  # number of parallel tempering replica ____ defect beta\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# twist parameters\n");
 		fprintf(fp,"k_twist 0 0 0 1 0 0 # twist parameter on the plane (0,1), (0,2), ..., (0,STDIM-1), (1, 2), ...");
 		fprintf(fp,"\n");
 		fprintf(fp,"# hierarchical update parameters\n");
 		fprintf(fp,"# Order: num of hierarc levels ____ extension of rectangles ____ num of sweeps per rectangle\n");
-		fprintf(fp,"hierarc_upd 2    2 1    1 1\n");
+		fprintf(fp,"hierarc_upd 3    3 2 1    1 2 3\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# Simulations parameters\n");
 		fprintf(fp, "beta  6.0\n");

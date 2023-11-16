@@ -180,7 +180,6 @@ void readinput(char *in_file, GParam *param)
 					param->d_theta=temp_d;
 					}
 			
-			
 			else if(strncmp(str, "sample", 6)==0)
 					{ 
 					err=fscanf(input, "%d", &temp_i);
@@ -202,6 +201,7 @@ void readinput(char *in_file, GParam *param)
 					}
 					param->d_thermal=temp_i;
 					}
+			
 			else if(strncmp(str, "overrelax", 9)==0)
 					{ 
 					err=fscanf(input, "%d", &temp_i);
@@ -245,6 +245,7 @@ void readinput(char *in_file, GParam *param)
 					}
 					param->d_saveconf_back_every=temp_i;
 					}
+			
 			else if(strncmp(str, "saveconf_analysis_every", 23)==0)
 					{
 					err=fscanf(input, "%d", &temp_i);
@@ -787,46 +788,46 @@ void readinput(char *in_file, GParam *param)
 					{ 
 					err=fscanf(input, "%d", &temp_i);
 					if(err!=1)
-					{
-					fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
-					exit(EXIT_FAILURE);
-					}
+						{
+						fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
+						exit(EXIT_FAILURE);
+						}
 					param->d_N_hierarc_levels=temp_i;
 					if(param->d_N_hierarc_levels > 0)
-					{
-					err=posix_memalign( (void **) &(param->d_L_rect), (size_t) INT_ALIGN, (size_t) param->d_N_hierarc_levels * sizeof(int));
-					if (err!=0)
-					{
-					fprintf(stderr, "Problems in allocating hierarchical update parameters! (%s, %d)\n", __FILE__, __LINE__);
-					exit(EXIT_FAILURE);
-					}
-					for(i=0;i<param->d_N_hierarc_levels;i++)
-					{
-					err=fscanf(input, "%d", &temp_i);
-					if(err!=1)
-					{
-					fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
-					exit(EXIT_FAILURE);
-					}
-					param->d_L_rect[i]=temp_i;
-					}
-					err=posix_memalign( (void **) &(param->d_N_sweep_rect), (size_t) INT_ALIGN, (size_t) param->d_N_hierarc_levels * sizeof(int));
-					if (err!=0)
-					{
-					fprintf(stderr, "Problems in allocating hierarchical update parameters! (%s, %d)\n", __FILE__, __LINE__);
-					exit(EXIT_FAILURE);
-					}
-					for(i=0;i<param->d_N_hierarc_levels;i++)
-					{
-					err=fscanf(input, "%d", &temp_i);
-					if(err!=1)
-					{
-					fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
-					exit(EXIT_FAILURE);
-					}
-					param->d_N_sweep_rect[i]=temp_i;
-					}
-					} // closes if( num_hierarc_levels > 0 )
+						{
+						err=posix_memalign( (void **) &(param->d_L_rect), (size_t) INT_ALIGN, (size_t) param->d_N_hierarc_levels * sizeof(int));
+						if (err!=0)
+							{
+							fprintf(stderr, "Problems in allocating hierarchical update parameters! (%s, %d)\n", __FILE__, __LINE__);
+							exit(EXIT_FAILURE);
+							}
+						for(i=0;i<param->d_N_hierarc_levels;i++)
+							{
+							err=fscanf(input, "%d", &temp_i);
+							if(err!=1)
+								{
+								fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
+								exit(EXIT_FAILURE);
+								}
+							param->d_L_rect[i]=temp_i;
+							}
+						err=posix_memalign( (void **) &(param->d_N_sweep_rect), (size_t) INT_ALIGN, (size_t) param->d_N_hierarc_levels * sizeof(int));
+						if (err!=0)
+							{
+							fprintf(stderr, "Problems in allocating hierarchical update parameters! (%s, %d)\n", __FILE__, __LINE__);
+							exit(EXIT_FAILURE);
+							}
+						for(i=0;i<param->d_N_hierarc_levels;i++)
+							{
+							err=fscanf(input, "%d", &temp_i);
+							if(err!=1)
+								{
+								fprintf(stderr, "Error in reading the file %s (%s, %d)\n", in_file, __FILE__, __LINE__);
+								exit(EXIT_FAILURE);
+								}
+							param->d_N_sweep_rect[i]=temp_i;
+							}
+						} // closes if( num_hierarc_levels > 0 )
 					}
 				
 			else if(strncmp(str, "multicanonic_acc_file", 21)==0)

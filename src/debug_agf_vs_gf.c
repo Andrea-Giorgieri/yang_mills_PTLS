@@ -26,7 +26,7 @@ void real_main(char *in_file)
 	Rectangle swap_rectangle;
 	Rectangle *most_update, *clover_rectangle;
 	Acc_Utils acc_counters;
-	int L_R_swap=1;
+	int L_R_swap=0;
 
     char name[STD_STRING_LENGTH], aux[STD_STRING_LENGTH];
     int count;
@@ -63,8 +63,8 @@ void real_main(char *in_file)
 	// initialize rectangles for hierarchical update
 	init_rect_hierarc(&most_update, &clover_rectangle, &param);
 		
-	// initialize rectangle for swap probability evaluation (L_R_swap = 1)
-	init_rect(&swap_rectangle, L_R_swap, &param);
+	// initialize rectangle for swap probability evaluation (defect level = 0 and L_R_swap = 0)
+	init_rect(&swap_rectangle, 0, L_R_swap, &param);
 		
 	// init acceptances array
 	init_swap_acc_arrays(&acc_counters, &param);
@@ -186,22 +186,21 @@ void print_template_input(void)
     }
 	else
 	{
-		fprintf(fp,"size 4 4 4 4  # Nt Nx Ny Nz\n");
+		fprintf(fp,"size 12 4 4 12  # Nt Nx Ny Nz\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# parallel tempering parameters\n");
-		fprintf(fp,"defect_dir    1             # choose direction of defect boundary: 0->t, 1->x, 2->y, 3->z\n");
-		fprintf(fp,"defect_size   1 1 1         # size of the defect (order: y-size z-size t-size)\n");
-		fprintf(fp,"N_replica_pt  2    0.0 1.0  # number of parallel tempering replica ____ boundary conditions coefficients\n");
+		fprintf(fp,"N_defect_levels 2    6 2 2 6    3 1 1 3   # size of the defect levels and extensions (order: x-size y-size z-size t-size)\n");
+		fprintf(fp,"N_replica_pt    3    6.0 4.0 2.0  # number of parallel tempering replica ____ defect beta\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# twist parameters\n");
 		fprintf(fp,"k_twist 0 0 0 1 0 0 # twist parameter on the plane (0,1), (0,2), ..., (0,STDIM-1), (1, 2), ...");
 		fprintf(fp,"\n");
 		fprintf(fp,"# hierarchical update parameters\n");
 		fprintf(fp,"# Order: num of hierarc levels ____ extension of rectangles ____ num of sweeps per rectangle\n");
-		fprintf(fp,"hierarc_upd 2    2 1    1 1\n");
+		fprintf(fp,"hierarc_upd 3    3 2 1    1 2 3\n");
 		fprintf(fp,"\n");
 		fprintf(fp,"# Simulations parameters\n");
-		fprintf(fp, "beta  5.705\n");
+		fprintf(fp, "beta  6.0\n");
 		fprintf(fp, "theta 1.5\n");
 		fprintf(fp,"\n");
 		fprintf(fp, "sample     10\n");
@@ -220,8 +219,8 @@ void print_template_input(void)
 		fprintf(fp, "agf_delta     0.001    # error threshold on gauge links for adaptive gradient flow\n");
 		fprintf(fp, "agf_time_bin 0.0001    # error threshold on time of measures for adaptive gradient flow\n");
 		fprintf(fp, "\n");
-		fprintf(fp, "coolsteps             3  # number of cooling steps to be used\n");
-		fprintf(fp, "coolrepeat            5  # number of times 'coolsteps' are repeated\n");
+		fprintf(fp, "coolsteps             0  # number of cooling steps to be used\n");
+		fprintf(fp, "coolrepeat            0  # number of times 'coolsteps' are repeated\n");
 		fprintf(fp, "\n");
 		fprintf(fp, "plaquette_meas        0  # 1=YES, 0=NO\n");
 		fprintf(fp, "clover_energy_meas    1  # 1=YES, 0=NO\n");

@@ -91,7 +91,7 @@ long cart_to_lexeo_rect(int const * const cartcoord, Rectangle const * const mos
 // geometry of rectangles used in the hierarchical update during parallel tempering
 
 int periodic_condition(int const coord, int const L_max);
-void init_rect(Rectangle *most_update, int const L_R, GParam const * const param);
+void init_rect(Rectangle *most_update, int const defect_level, int const L_R, GParam const * const param);
 void free_rect(Rectangle *most_update);
 void init_rect_hierarc(Rectangle **most_update, Rectangle **clover_rect, GParam const * const param);
 void free_rect_hierarc(Rectangle *most_update, Rectangle *clover_rect, GParam const * const param);
