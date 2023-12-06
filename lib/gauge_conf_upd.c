@@ -68,7 +68,7 @@ void calcstaples_wilson(Gauge_Conf const * const GC,
 		times_dag2(&link12, &link1, &link2);  // link12=link1*link2^{dag}
 		times_dag2(&stap, &link12, &link3);	// stap=link12*stap^{dag}
 	
-		//twist (clockwise plaquette) and defect modification
+		//twist (clockwise plaquette) modification
 		factor=GC->Z[r][dirs_to_si(i,j)];		//Z_\mu\nu(x)
 	
 		times_equal_complex(&stap, factor); // Z_\mu\nu(x) * staple
@@ -97,7 +97,7 @@ void calcstaples_wilson(Gauge_Conf const * const GC,
 		times_dag12(&link12, &link1, &link2); // link12=link1^{dag}*link2^{dag}
 		times(&stap, &link12, &link3);		// stap=link12*link3
 		
-		//twist (anticlockwise plaquette) and defect modification
+		//twist (anticlockwise plaquette) modification
 		factor=GC->Z[k][dirs_to_si(j,i)];	//Z_\nu\mu(x-\nu) = conj(Z_\mu\nu(x-\nu))
 	
 		times_equal_complex(&stap, factor); // Z_\mu\nu(x-\nu) * staple
@@ -1771,7 +1771,7 @@ void gradflow_RKstep_adaptive(Gauge_Conf *GC,
 			if (dist > local_max_dist[thread_num]) local_max_dist[thread_num] = dist;
 			}
 		}
-	max_dist = param->d_agf_delta/pow(10.0, 6); //to avoid division by zero or dt -> 100dt in a single step
+	max_dist = param->d_agf_delta/pow(10.0, 3); //to avoid division by zero or dt -> 10dt in a single step
 	for (j=0; j<NTHREADS; j++)
 		{
 		if (local_max_dist[j] > max_dist) max_dist = local_max_dist[j];

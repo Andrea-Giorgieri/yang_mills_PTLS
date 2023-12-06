@@ -468,10 +468,12 @@ void free_gauge_conf(Gauge_Conf *GC, GParam const * const param)
 	long i;
 
 	for(i=0; i<(param->d_volume); i++)
-	{
-	free(GC->lattice[i]);
-	}
+		{
+		free(GC->lattice[i]);
+		free(GC->Z[i])
+		}
 	free(GC->lattice);
+	free(GC->Z)
 
 	#ifdef THETA_MODE
 	end_clover_array(GC, param);
@@ -485,7 +487,6 @@ void free_replica(Gauge_Conf *GC, GParam const * const param)
 		{
 		free_gauge_conf(&(GC[i]), param);
 		free_defect_beta(&(GC[i]), param);
-		free_twist_cond(&(GC[i]), param);
 		}
 	free(GC);
 	}

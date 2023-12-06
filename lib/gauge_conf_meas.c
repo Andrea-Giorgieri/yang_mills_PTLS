@@ -1728,7 +1728,7 @@ void perform_measures_localobs_with_adaptive_gradflow(Gauge_Conf *GC,
 		while(meas_count < gradflowrepeat)
 			{
 			gradflow_RKstep_adaptive(&helperconf, &helperconf_old, &help1, &help2, &help3, geo, param, &gftime, &gftime_step, &accepted);
-			if (accepted == 1 && fabs(gftime - param->d_agf_meas_each*(meas_count+1)) <= param->d_agf_time_bin/2.0 ) 	//step accepted, perform measures
+			if (accepted == 1 && fabs(gftime - param->d_agf_meas_each*(meas_count+1)) < param->d_agf_time_bin + MIN_VALUE) 	//step accepted, perform measures
 				{
 				if (param->d_plaquette_meas == 1 ) 
 					{
@@ -1749,7 +1749,7 @@ void perform_measures_localobs_with_adaptive_gradflow(Gauge_Conf *GC,
 				if (param->d_charge_prime_meas == 1) for (i=0; i<STDIM; i++) charge_prime[meas_count][i]=topcharge_prime(&helperconf, geo, param, i);
 				meas_count = meas_count + 1;
 				}
-			if ((gftime + gftime_step - param->d_agf_meas_each*(meas_count+1)) > param->d_agf_time_bin/2.0 ) //adapt step to the time of next measure
+			if ((gftime + gftime_step - param->d_agf_meas_each*(meas_count+1)) > param->d_agf_time_bin ) //adapt step to the time of next measure
 				{
 				gftime_step = param->d_agf_meas_each*(meas_count+1) - gftime;
 				}
