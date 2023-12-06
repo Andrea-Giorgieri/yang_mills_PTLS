@@ -470,10 +470,10 @@ void free_gauge_conf(Gauge_Conf *GC, GParam const * const param)
 	for(i=0; i<(param->d_volume); i++)
 		{
 		free(GC->lattice[i]);
-		free(GC->Z[i])
+		free(GC->Z[i]);
 		}
 	free(GC->lattice);
-	free(GC->Z)
+	free(GC->Z);
 
 	#ifdef THETA_MODE
 	end_clover_array(GC, param);
